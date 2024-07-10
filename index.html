@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do you like Kishore?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+            color: black;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            gap: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: white;
+            border: 1px solid black;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #f0f0f0;
+        }
+        #noButton {
+            position: absolute;
+        }
+        #timer {
+            font-size: 48px;
+            margin-top: 20px;
+        }
+        #failMessage {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+        #failText {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Do you like Kishore?</h1>
+    <div class="buttons">
+        <button id="yesButton">Yes</button>
+        <button id="noButton">No</button>
+    </div>
+    <div id="timer"></div>
+    <div id="failMessage">
+        <img src="https://media.giphy.com/media/3oEjI5VtIhHvK37WYo/giphy.gif" alt="You Failed" width="500">
+        <div id="failText">You Failed Alondra!</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const noButton = document.getElementById('noButton');
+        const timerDisplay = document.getElementById('timer');
+        const failMessage = document.getElementById('failMessage');
+        let timeLeft = 10;
+
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        }
+
+        noButton.addEventListener('mouseover', moveButton);
+
+        function updateTimer() {
+            timerDisplay.textContent = timeLeft;
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            failMessage.style.display = 'block';
+        }
+
+        updateTimer();
+    </script>
+</body>
+</html>
